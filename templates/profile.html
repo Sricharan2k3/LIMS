@@ -1,0 +1,419 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="shortcut icon"
+      type="png"
+      href="{% static 'images/favicon.png' %}"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <title>User</title>
+    <style>
+      .navbar-nav {
+        margin-left: auto;
+      }
+
+      .body-content {
+        padding-top: 3em;
+      }
+
+      .user-content {
+        gap: 0.5em;
+      }
+
+      .pfp-section {
+        background-color: #ffffff;
+        height: 512px;
+        padding: 25px;
+      }
+
+      .pfp-img {
+        border-radius: 50%;
+      }
+
+      .login-reg-btn {
+        margin: 0 10px;
+      }
+
+      .logout-btn {
+        display: flex;
+        justify-content: center;
+      }
+
+      .user-details {
+        background-color: #ffffff;
+        padding: 25px;
+        border-radius: 10px;
+      }
+
+      .user-tab {
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        padding: 20px;
+      }
+
+      .user-table {
+        margin-top: 10px;
+      }
+
+      .footer-section {
+        background-color: #121212;
+        color: #ffffff;
+      }
+
+      .footer-section a {
+        color: #ffffff;
+      }
+    </style>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div
+      class="header-background"
+      style="height: 460px; background-image: url(static/images/bg.jpg)"
+    >
+      <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/#">
+            <img
+              src="{% static 'images/logo-bw.png' %}"
+              alt=""
+              style="height: 58px"
+            />
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mb-2 mb-lg-0 justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/#"
+                  >Home</a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/#topics">Topics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/#recom">Recommendations</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/#topread">Top Readers</a>
+              </li>
+
+              {% if user.is_authenticated %} {% if user.is_superuser == 1 %}
+              <li class="nav-item">
+                <a class="nav-link" href="/add_book">Add Book</a>
+              </li>
+              {% endif %}
+              <li class="nav-item login-reg-btn">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a href="/logout"
+                    ><button type="button" class="btn btn-light">
+                      Logout
+                    </button></a
+                  >
+                  <a href="/profile"
+                    ><button type="button" class="btn btn-light">
+                      {{user.username}}
+                    </button></a
+                  >
+                </div>
+              </li>
+
+              {% else %}
+              <li class="nav-item login-reg-btn">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a href="/login"
+                    ><button type="button" class="btn btn-light">
+                      Login
+                    </button></a
+                  >
+                  <a href="/register"
+                    ><button type="button" class="btn btn-light">
+                      Register
+                    </button></a
+                  >
+                </div>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="container-fluid body-content">
+      <div class="d-flex user-content">
+        <div class="pfp-section">
+          <div class="p-4 d-flex justify-content-center">
+            <img
+              src="{{user.profile_image.url}}"
+              class="pfp-img"
+              alt=""
+              style="height: 160px; width: 160px; object-fit: cover"
+            />
+          </div>
+        </div>
+        <div class="flex-grow-1 user-details">
+          <h5>Hi, {{user.username}}</h5>
+          <small
+            >Welcome to Member's Area where you can view your current loan
+            information and view your membership status.</small
+          >
+          <hr />
+          <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="current-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#current-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="current-tab-pane"
+                aria-selected="true"
+              >
+                Current Loan
+              </button>
+            </li>
+            {% if user.is_superuser == 1 %}
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="all-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#all-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="account-tab-pane"
+                aria-selected="false"
+              >
+                All loans
+              </button>
+            </li>
+            {% endif %}
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="account-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#account-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="account-tab-pane"
+                aria-selected="false"
+              >
+                My Account
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div
+              class="tab-pane fade show active user-tab"
+              id="current-tab-pane"
+              role="tabpanel"
+              aria-labelledby="current-tab"
+              tabindex="0"
+            >
+              <table class="table table-hover user-table">
+                <thead>
+                  <tr class="table-secondary">
+                    <th scope="col">Item Code</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Loan Date</th>
+                    <th scope="col">Due Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for issue in issued_books %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ issue.book.title }}</td>
+                    <td>{{ issue.issued_at }}</td>
+                    <td>{{ issue.returned_at }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div
+              class="tab-pane fade user-tab"
+              id="all-tab-pane"
+              role="tabpanel"
+              aria-labelledby="all-tab"
+              tabindex="0"
+            >
+              <table class="table table-hover user-table">
+                <thead>
+                  <tr class="table-secondary">
+                    <th scope="col">Item Code</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Loan Date</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">User Issued</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for issue in all_books %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ issue.book.title }}</td>
+                    <td>{{ issue.issued_at }}</td>
+                    <td>{{ issue.returned_at }}</td>
+
+                    <td>{{ issue.user.username }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div
+              class="tab-pane fade user-tab"
+              id="account-tab-pane"
+              role="tabpanel"
+              aria-labelledby="account-tab"
+              tabindex="0"
+            >
+              <h4>User Details</h4>
+              <br />
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th scope="row">Member Name</th>
+                    <td>{{user.username}}</td>
+                    <th scope="row">Member ID</th>
+                    <td>{{user.id}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Member Email</th>
+                    <td>{{user.email}}</td>
+                    <th scope="row">Member Type</th>
+                    <td>
+                      {% if user.is_superuser == 1 %} Admin {% else %} Regular
+                      {% endif %}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid footer-section">
+      <div class="container">
+        <footer class="py-5">
+          <div class="row">
+            <div class="col-6 col-md-2 mb-3">
+              <h5>
+                <img
+                  src="{% static 'images/logo-bw-ftr.png' %}"
+                  alt=""
+                  height="64px"
+                />
+              </h5>
+              <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                  <a href="#" class="nav-link p-0">Home</a>
+                </li>
+                <li class="nav-item mb-2">
+                  <a href="#" class="nav-link p-0">Information</a>
+                </li>
+                <li class="nav-item mb-2">
+                  <a href="#" class="nav-link p-0">Topics</a>
+                </li>
+                <li class="nav-item mb-2">
+                  <a href="#" class="nav-link p-0">Top Readers</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-6 col-md-2 mb-3"></div>
+
+            <div class="col-6 col-md-2 mb-3">
+              <br />
+              <h5>About Us</h5>
+              <small
+                >As a complete Library Management System, LiMS (Library
+                Management System) has many features that will help libraries
+                and librarians to do their job easily and quickly.</small
+              >
+            </div>
+
+            <div class="col-md-5 offset-md-1 mb-3">
+              <br />
+              <form>
+                <h5>Subscribe to our newsletter</h5>
+                <p>Monthly digest of what's new and exciting from us.</p>
+                <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                  <label for="newsletter1" class="visually-hidden"
+                    >Email address</label
+                  >
+                  <input
+                    id="newsletter1"
+                    type="text"
+                    class="form-control"
+                    placeholder="Email address"
+                  />
+                  <button class="btn btn-primary" type="button">
+                    Subscribe
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div
+            class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top"
+          >
+            <p>© 2023 LiMS, Inc. All rights reserved.</p>
+            <ul class="list-unstyled d-flex">
+              <li class="ms-3">
+                <a class="link-dark" href="#"
+                  ><svg class="bi" width="24" height="24">
+                    <use xlink:href="#twitter"></use></svg
+                ></a>
+              </li>
+              <li class="ms-3">
+                <a class="link-dark" href="#"
+                  ><svg class="bi" width="24" height="24">
+                    <use xlink:href="#instagram"></use></svg
+                ></a>
+              </li>
+              <li class="ms-3">
+                <a class="link-dark" href="#"
+                  ><svg class="bi" width="24" height="24">
+                    <use xlink:href="#facebook"></use></svg
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

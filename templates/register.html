@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+   <link rel="shortcut icon" type="png" href="{% static 'images/favicon.png' %}">
+    <title>Login SignUp</title>
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'loginStyle.css' %}"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- It will redirect to the Home Page after submitting the form -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'icoomoon/styles.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <title>Login</title>
+
+</head>
+
+<body>
+    <!-- <div class="form-box">
+        <div class="button-box">
+            <div id="btn"></div>
+            <button type="button" class="toggle-btn" id="log" onclick="login()" style="color: #fff;">Log In</button>
+            <button type="button" class="toggle-btn" id="reg" onclick="register()">Register</button>
+        </div>
+        <div class="social-icons">
+            <img src="{% static 'images/icon/fb2.png' %}">
+            <img src="{% static 'images/icon/insta2.png' %}">
+            <img src="{% static 'images/icon/tt2.png' %}">
+        </div>
+
+        Login Form
+        <form id="login" class="input-group-1" action="login" method="POST">
+            {% csrf_token %}
+            <div class="inp">
+                <img src="{% static 'images/icon/user.png' %}"><input type="text" id="email" class="input-field"
+                    placeholder="Username or Phone Number" style="width: 88%; border:none;" required="required"
+                    name="username">
+            </div>
+            <div class="inp">
+                <img src="{% static 'images/icon/password.png' %}"><input type="password" id="password"
+                    class="input-field" placeholder="Password" style="width: 88%; border: none;" required="required"
+                    name="password">
+            </div>
+            <input type="checkbox" class="check-box">Remember Password
+            <button type="submit" class="submit-btn">Log In</button>
+
+            {% if messages %}
+
+            {% for message in messages %}
+            <div class="alert alert-danger" style="padding-left: 40px; padding-top: 5px;">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+
+        </form> -->
+
+
+    <body>
+
+
+        <!-- <div class="d-lg-flex half">
+            <div class="bg order-1 order-md-2" style="background-image: url();"></div>
+            <div class="contents order-2 order-md-1">
+
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-7">
+                            <h3>Login to <strong>LiMS</strong></h3>
+                            <hr>
+                            <p class="mb-4"></p>
+                            <form action="login" method="post">
+                                <div class="form-group first">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" placeholder="your-email@gmail.com"
+                                        id="username">
+                                </div>
+                                <div class="form-group last mb-3">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" placeholder="Your Password"
+                                        id="password">
+                                </div>
+
+                                <div class="d-flex mb-5 align-items-center">
+                                    <label class="control control--checkbox mb-0"><span class="caption">Remember
+                                            me</span>
+                                        <input type="checkbox" checked="checked" />
+                                        <div class="control__indicator"></div>
+                                    </label>
+                                    <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>
+                                </div>
+
+                                <input type="submit" value="Log In" class="btn btn-block btn-dark">
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div> -->
+
+
+
+
+
+
+        <!-- <div class="other" id="other">
+            <div class="instead">
+                <h3>or</h3>
+            </div>
+            <button class="connect" onclick="google()">
+                <img src="{% static 'images/icon/google.png' %}"><span>Sign in with Google</span>
+            </button>
+        </div> -->
+
+        <!-- Registration Form -->
+        <!-- <form id="register" class="input-group" method="POST" action="register">
+            {% csrf_token %}
+            <input type="text" class="input-field" placeholder=" Username" required="required" name="username">
+            <input type="email" class="input-field" placeholder="Email Address" required="required" name="email">
+            <input type="password" class="input-field" placeholder="Create Password" name="password"
+                required="required">
+            <input type="text" class="input-field" placeholder="Age" name="age" required="required">
+            <input type="number" class="input-field" placeholder="Phone No" name="phone" required="required">
+            <input type="password" class="input-field" placeholder="Confirm Password" name="confirm_password" required="required">
+            <input type="checkbox" class="check-box" id="chkAgree" onclick="goFurther()">I agree to the Terms &
+            Conditions
+            <button type="submit" id="btnSubmit" class="submit-btn reg-btn" onclick="success()">Register</button>
+        </form> -->
+
+
+<!-- 
+        </div> -->
+        <div class="d-lg-flex half">
+            <div class="bg order-1 order-md-2" style="background-image: url('static/images/bg-login.jpg');"></div>
+            <div class="contents order-2 order-md-1">
+
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-7">
+                            <h3>Register to <strong>LiMS</strong></h3>
+                            <hr>
+                            <p class="mb-4"></p>
+                            <form action="register" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group first">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" placeholder="Username"
+                                        id="username" name="username">
+                                </div>
+                                <div class="form-group last mb-3">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+                                </div>
+
+                                <div class="form-group last mb-3">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" placeholder="your-email@gmail.com" id="email" name="email">
+                                </div>
+
+                                <div class="form-group last mb-3">
+                                    <label for="profile_image">Profile Image</label>
+                                    <input type="file" class="form-control" placeholder="img" id="profile_image" name="profile_image">
+                                </div>
+
+                                <div class="d-flex mb-5 align-items-center">
+                                    <!-- <label class="control control--checkbox mb-0"><span class="caption">Remember
+                                            me</span>
+                                        <input type="checkbox" checked="checked" />
+                                        <div class="control__indicator"></div>
+                                    </label>
+                                    <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> -->
+                                </div>
+
+                                <input type="submit" value="Register" class="btn btn-block btn-dark">
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <script type="text/javascript" src="{% static 'script.js' %}"></script>
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+    </body>
+
+</html>

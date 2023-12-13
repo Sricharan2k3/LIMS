@@ -1,0 +1,345 @@
+{% load static %}
+{% url 'view_book' as book_page_url %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="png" href="{% static 'images/favicon.png' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Home</title>
+    <style>
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .body-content {
+            padding-top: 3em;
+        }
+
+        .card-link {
+            text-decoration: none;
+            opacity: 1;
+            width: 160px;
+            font-size: small;
+        }
+
+        .card-link:hover {
+            opacity: 1;
+        }
+
+        .subject-cards-container {
+            margin: 2em auto;
+            gap: 1em;
+        }
+
+        .subject-cards-heading {
+            margin: auto auto;
+            font-weight: lighter;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .card-body {
+            gap: 0em 1em;
+            background-color: #F8FAFC;
+            border-radius: 20px;
+        }
+
+        .subject-modal-container {
+            margin: 0.5em auto;
+            gap: 1em;
+        }
+
+        .body-content {
+            background-color: #F8FAFC;
+        }
+
+        .recom-section {
+            padding-bottom: 5px;
+        }
+
+        .recom-card {
+            background-color: #FFFFFF;
+        }
+
+        .recom-a:hover {
+            box-shadow: 0px 0px 3px 1px #d3d3d3;
+        }
+
+        .login-reg-btn {
+            margin: 0 10px;
+        }
+
+        .top-reader {
+            background-color: #FFFFFF;
+            padding-top: 3em;
+        }
+
+        .reader-card {
+            padding-right: 150px;
+            padding-left: 150px;
+        }
+
+        .reader-card-body {
+            background-color: #FFFFFF;
+        }
+
+        .footer-section {
+            background-color: #121212;
+            color: #FFFFFF;
+        }
+
+        .footer-section a {
+            color: #FFFFFF;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="header-background" style="height: 460px; background-image: url(/static/images/bg.jpg)">
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/#">
+                    <img src="{% static 'images/logo-bw.png' %}" alt="" style="height: 58px;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav mb-2 mb-lg-0 justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/#">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#topics">Topics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#recom">Recommendations</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#topread">Top Readers</a>
+                        </li>
+                        
+                        {% if user.is_authenticated %}
+                        {% if user.is_superuser == 1 %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/add_book">Add Book</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item login-reg-btn">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="/logout"><button type="button" class="btn btn-light">Logout</button></a>
+                                <a href="/profile"><button type="button" class="btn btn-light">{{user.username}}</button></a>
+                            </div>
+                        </li>
+                        
+
+                        
+                        {% else %}
+                        <li class="nav-item login-reg-btn">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="/login"><button type="button" class="btn btn-light">Login</button></a>
+                                <a href="/register"><button type="button" class="btn btn-light">Register</button></a>
+                            </div>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="body-content" id="topics">
+        <h3 class="subject-cards-heading">Select the topic you are interested in</h3>
+        <div class="subject-cards-container container d-flex justify-content-center">
+            {% for category in categories %}
+            <a href="category/{{category.id}}" class="card-link card hover:opacity-1">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <img src="{{category.cover_image.url}}" alt="" height="128" width="128">
+                    <div style="margin-top: 5px;">{{category.name}}</div>
+                </div>
+            </a>
+            {% endfor%}
+            <a href="" class="card-link card" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <img src="{% static 'images/grid_icon.png' %}" alt="" height="80" width="80">
+                    see more..
+                </div>
+            </a>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Select the topic you are interested in
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="subject-modal-container container d-flex flex-column justify-content-center">
+                                <div class="subject-modal-container container d-flex justify-content-center">
+                                    {% for category in categories %}
+                                        <a href="category/{{category.id}}" class="card-link card hover:opacity-1">
+                                            <div class="card-body d-flex flex-column align-items-center">
+                                                <img src="{{category.cover_image.url}}" alt="" height="128" width="128">
+                                                <div style="margin-top: 5px;">{{category.name}}</div>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                                <div class="subject-modal-container container d-flex justify-content-center">
+                                    {% for category in all_categories %}
+                                        <a href="category/{{category.id}}" class="card-link card hover:opacity-1">
+                                            <div class="card-body d-flex flex-column align-items-center">
+                                                <img src="{{category.cover_image.url}}" alt="" height="128" width="128">
+                                                <div style="margin-top: 5px;">{{category.name}}</div>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            Icons made by <a href="https://www.freepik.com/">Freepik</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="recom-section container" id="recom">
+            <h3>Recommendations</h3>
+            <small>Our recommendations from our library's line of collection. Look for them. Issue them. Hope you also
+                like them.</small>
+            <div class="subject-cards-container container d-flex justify-content-left">
+                {% for book in books %}
+                {% if user.is_authenticated %}
+                <div class="cursor-help" onclick="redirectToBookPage('{{book.id}}', 'book')">
+                    {% else %}
+                    <div class="cursor-help" id="liveToastBtn" onclick="toasttemp()">
+                        {% endif %}
+                        
+                    <div class="card-link card border-0 recom-a">
+                        <div class="card-body recom-card d-flex flex-column align-items-center">
+                            <img src="{{book.cover_image.url}}" class="img-fluid">
+                            {{book.title}}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="toast-container position-fixed bottom-0 end-0 p-3 ">
+                    <div id="liveToast" class="toast text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-body">
+                            You need to be logged in to view a book.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="top-reader container" id="topread">
+        <h3>Top readers</h3>
+        <small>Our best users, readers, so far. Continue to read if you want your name being mentioned here.</small>
+        <div class="subject-cards-container container d-flex justify-content-left">
+            {% for user in top_users %}
+
+            <a href="" class="card-link card reader-card align-items-center">
+                <div class="card-body d-flex flex-column align-items-center reader-card-body">
+                    <img src="{{user.profile_image.url}}" class="rounded-circle" alt="" height="80" width="80">
+                    <h5 class="card-title text-center mt-3">
+                        <span>{{user.username}}</span>
+                    </h5>
+              
+                 
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container-fluid footer-section">
+        <div class="container">
+            <footer class="py-5">
+                <div class="row">
+                    <div class="col-6 col-md-2 mb-3">
+                        <h5><img src="{% static 'images/logo-bw-ftr.png' %}" alt="" height="64px"></h5>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-2"><a href="/#" class="nav-link p-0 ">Home</a></li>
+                            <li class="nav-item mb-2"><a href="/#topics" class="nav-link p-0 ">Topics</a></li>
+                            <li class="nav-item mb-2"><a href="/#recom" class="nav-link p-0 ">Recommendations</a></li>
+                            <li class="nav-item mb-2"><a href="/#topread" class="nav-link p-0 ">Top Readers</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 col-md-2 mb-3">
+
+                    </div>
+
+                    <div class="col-6 col-md-2 mb-3">
+                        <br>
+                        <h5>About Us</h5>
+                        <small>As a complete Library Management System, LiMS (Library Management System) has many
+                            features that will help libraries and librarians to do their job easily and quickly.</small>
+                    </div>
+
+
+
+                    <div class="col-md-5 offset-md-1 mb-3">
+                        <br>
+                        <form>
+                            <h5>Subscribe to our newsletter</h5>
+                            <p>Monthly digest of what's new and exciting from us.</p>
+                            <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                                <label for="newsletter1" class="visually-hidden">Email address</label>
+                                <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                                <button class="btn btn-primary" type="button">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+                    <p>© 2023 LiMS, Inc. All rights reserved.</p>
+                    <ul class="list-unstyled d-flex">
+                        <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24">
+                                    <use xlink:href="#twitter"></use>
+                                </svg></a></li>
+                        <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24">
+                                    <use xlink:href="#instagram"></use>
+                                </svg></a></li>
+                        <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24">
+                                    <use xlink:href="#facebook"></use>
+                                </svg></a></li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function redirectToBookPage(bookId, bookPageUrl) {
+            // Redirect to the book page using the bookId and bookPageUrl
+            window.location.href = bookPageUrl+'/'+bookId
+        }
+
+        function toasttemp() {
+                const toastLiveExample = document.getElementById('liveToast')
+
+                const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+                    
+                toastBootstrap.show()
+
+
+            }
+    </script>
+</body>
+
+</html>

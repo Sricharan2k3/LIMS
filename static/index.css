@@ -1,0 +1,85 @@
+
+
+.btn-secondary{
+    margin-top: 10px;
+    border-radius:40px ;
+    background-color: white;
+    border-color: black;
+}
+
+.btn-secondary:hover{
+    background-color: grey;
+    color: white;
+}
+
+.custom-card{
+    padding: 20px;
+box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.custom-card:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.description{
+    margin-top: 10px;
+}
+
+/* Basic styles for the "Add to Cart" div */
+.addtocart {
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Opacity for the default state */
+.addtocart {
+    border-color:#ddd;
+}
+
+/* Opacity and background changes on hover */
+.addtocart:hover {
+    opacity: 0.8;
+    background-color: #ddd;
+}
+
+/* Style for the "+" sign when hovering */
+.addtocart:hover h4 {
+   display: none;
+    content: 'Add to cart';
+}
+
+.addtocart:hover p {
+    display: block;
+    font-size: 24px;
+    
+    content: url('plus.png');
+    
+}
+
+/* Styles for the "+" sign inside <p> tag */
+/* .addtocart p::after {
+    content: "+";
+    display: block;
+} */
+
+#down{
+padding-left: 50%;
+
+}
+
+.edition{
+    padding-left: 0;
+}
+
+#details{
+    display: none;
+}
+
+.mycontainer{
+    margin: 25px auto;
+}
+

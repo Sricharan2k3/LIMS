@@ -1,0 +1,336 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="shortcut icon"
+      type="png"
+      href="{% static 'images/favicon.png' %}"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+    <style>
+      .navbar-nav {
+        margin-left: auto;
+      }
+
+      .body-content {
+        padding: 3em 0;
+      }
+
+      .cover-bg {
+        padding: 3rem;
+        border-radius: 10px;
+        background-color: #dae1e7;
+      }
+
+      .cover {
+        box-shadow: 0px 0px 5px 0.5px grey;
+      }
+
+      .login-reg-btn {
+        margin: 0 10px;
+      }
+
+      .book-content {
+        justify-content: center;
+        gap: 0.5em;
+      }
+
+      .book-title {
+        margin-bottom: 5px;
+      }
+
+      .description {
+        width: 800px;
+      }
+
+      .library-name {
+        width: 400px;
+      }
+
+      .avail {
+        border: 0.1px solid #dae1e7;
+      }
+
+      .book-qty {
+        width: 100px;
+      }
+
+      .footer-section {
+        background-color: #121212;
+        color: #ffffff;
+      }
+
+      .footer-section a {
+        color: #ffffff;
+      }
+    </style>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div
+      class="header-background"
+      style="height: 460px; background-image: url(/static/images/bg.jpg)"
+    >
+      <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/#">
+            <img
+              src="{% static 'images/logo-bw.png' %}"
+              alt=""
+              style="height: 58px"
+            />
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mb-2 mb-lg-0 justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/#"
+                  >Home</a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/#topics">Topics</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/#recom">Recommendations</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/#topread">Top Readers</a>
+              </li>
+
+              {% if user.is_authenticated %} {% if user.is_superuser == 1 %}
+              <li class="nav-item">
+                <a class="nav-link" href="/add_book">Add Book</a>
+              </li>
+              {% endif %}
+              <li class="nav-item login-reg-btn">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a href="/logout"
+                    ><button type="button" class="btn btn-light">
+                      Logout
+                    </button></a
+                  >
+                  <a href="/profile"
+                    ><button type="button" class="btn btn-light">
+                      {{user.username}}
+                    </button></a
+                  >
+                </div>
+              </li>
+
+              {% else %}
+              <li class="nav-item login-reg-btn">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a href="/login"
+                    ><button type="button" class="btn btn-light">
+                      Login
+                    </button></a
+                  >
+                  <a href="/register"
+                    ><button type="button" class="btn btn-light">
+                      Register
+                    </button></a
+                  >
+                </div>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="container body-content">
+      <div class="d-flex book-content">
+        <div class="p-2 flex-shrink-1">
+          <div class="cover-bg rounded bg-grey-light">
+            <img
+              src="{{book.cover_image.url}}"
+              alt=""
+              class="cover"
+              width="150px"
+            />
+          </div>
+          <div class="d-flex flex-row justify-content-center text-sm my-2">
+            <a
+              href="javascript:void(0)"
+              class="text-decoration-none text-secondary"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-share"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"
+                ></path>
+              </svg>
+              Share
+            </a>
+          </div>
+        </div>
+        <div class="p-2">
+          <div>
+            <img src="{% static 'images/bookmark.png' %}" alt="" width="17px" />
+          </div>
+          <div class="book-details">
+            <blockquote class="blockquote">
+              <h4 class="mb-3">{{book.title}}</h4>
+              <footer class="blockquote-footer">{{book.author}}</footer>
+            </blockquote>
+            <hr />
+            <p class="description">{{book.description}}</p>
+            <hr />
+            <h5>Availability</h5>
+            <div class="d-flex">
+              <div class="p-2 flex-grow-1 library-name avail">My Library</div>
+              <div class="p-2 avail book-qty">{{book.availability}}</div>
+              {% if count == 1 %}
+
+              <div class="p-2 avail">
+                <button type="button" class="btn btn-danger" disabled>
+                  Issued
+                </button>
+              </div>
+
+              {% else %}
+              <div class="p-2 avail">
+                <a href="{% url 'update1' book_id=book.id user_id=user.id %}"
+                  ><button type="button" class="btn btn-danger">
+                    Issue
+                  </button></a
+                >
+              </div>
+              {% endif %}
+            </div>
+            <hr />
+            <h5>Detail Information</h5>
+            <ul class="list-group">
+              <li class="list-group-item">Language - {{book.language}}</li>
+              <li class="list-group-item">ISBN - {{book.isbn}}</li>
+              <li class="list-group-item">Year - {{book.year}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid footer-section">
+      <div class="container">
+        <footer class="py-5">
+          <div class="row">
+            <div class="col-6 col-md-2 mb-3">
+              <h5>
+                <img
+                  src="{% static 'images/logo-bw-ftr.png' %}"
+                  alt=""
+                  height="64px"
+                />
+              </h5>
+              <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                  <a href="/#" class="nav-link p-0">Home</a>
+                </li>
+                <li class="nav-item mb-2">
+                  <a href="/#topics" class="nav-link p-0">Topics</a>
+                </li>
+                <li class="nav-item mb-2">
+                  <a href="/#recom" class="nav-link p-0">Recommendations</a>
+                </li>
+                <li class="nav-item mb-2">
+                  <a href="/#topread" class="nav-link p-0">Top Readers</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-6 col-md-2 mb-3"></div>
+
+            <div class="col-6 col-md-2 mb-3">
+              <br />
+              <h5>About Us</h5>
+              <small
+                >As a complete Library Management System, LiMS (Library
+                Management System) has many features that will help libraries
+                and librarians to do their job easily and quickly.</small
+              >
+            </div>
+
+            <div class="col-md-5 offset-md-1 mb-3">
+              <br />
+              <form>
+                <h5>Subscribe to our newsletter</h5>
+                <p>Monthly digest of what's new and exciting from us.</p>
+                <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                  <label for="newsletter1" class="visually-hidden"
+                    >Email address</label
+                  >
+                  <input
+                    id="newsletter1"
+                    type="text"
+                    class="form-control"
+                    placeholder="Email address"
+                  />
+                  <button class="btn btn-primary" type="button">
+                    Subscribe
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div
+            class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top"
+          >
+            <p>© 2023 LiMS, Inc. All rights reserved.</p>
+            <ul class="list-unstyled d-flex">
+              <li class="ms-3">
+                <a class="link-dark" href="#"
+                  ><svg class="bi" width="24" height="24">
+                    <use xlink:href="#twitter"></use></svg
+                ></a>
+              </li>
+              <li class="ms-3">
+                <a class="link-dark" href="#"
+                  ><svg class="bi" width="24" height="24">
+                    <use xlink:href="#instagram"></use></svg
+                ></a>
+              </li>
+              <li class="ms-3">
+                <a class="link-dark" href="#"
+                  ><svg class="bi" width="24" height="24">
+                    <use xlink:href="#facebook"></use></svg
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
